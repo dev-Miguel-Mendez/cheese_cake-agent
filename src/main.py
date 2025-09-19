@@ -3,16 +3,15 @@ import questionary
 from colorama import Fore, Back
 import bootstrap_env # pylint: disable=all #type: ignore
 
-from ops.configure_self_hosted_runner.runner_class import SelfHostedRunner 
+from ops.configure_runner.runner_class import SelfHostedRunner 
 
 
 
 
-def setup_self_hosted_runner():
+def setup_runner():
     subprocess.run("clear") #* Clear terminal
 
-    self_hosted_runner = SelfHostedRunner()
-    self_hosted_runner.set_dir()
+    runner = SelfHostedRunner()
     
 
     while True:
@@ -34,20 +33,16 @@ def setup_self_hosted_runner():
 
         match result["action"]:
             case "Set up self-hosted runner from scratch":
-                self_hosted_runner.download_tarball()
-                self_hosted_runner.check_shasum()
-                self_hosted_runner.extract_and_delete_tarball()
-                self_hosted_runner.configure_and_start_runner()
-
+                runner.setup_runner_from_scratch()
                 print(Back.GREEN + 'Success' + Back.RESET)
 
 
-            case "Download self-runner and validate shasum":
-                self_hosted_runner.download_tarball()
-                self_hosted_runner.check_shasum()
+            case "Download self-runner and extract":
+                runner.download_and_extract()
+
 
             case "Run 'configure.sh' and start runner":
-                self_hosted_runner.configure_and_start_runner()
+                runner.configure_and_start_runner()
 
             case "Print current working directory (for self-hosted runner)":
                 print(subprocess.run('pwd',))
@@ -57,4 +52,4 @@ def setup_self_hosted_runner():
             case _:
                 raise Exception(Fore.RED + 'Unknown action.' + Fore.RESET)
             
-setup_self_hosted_runner()
+setup_runner()

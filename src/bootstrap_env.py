@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv('.env')
 
 REQUIRED_ENV_VARS= [
-    "SELF_HOSTED_RUNNER_INSTALLATION_DIR_FROM_HOME",
+    "runner_INSTALLATION_DIR_FROM_HOME",
     "TARGET_GITHUB_REPOSITORY",
     "RUNNER_TOKEN"
 ]
