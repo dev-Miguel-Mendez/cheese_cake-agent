@@ -1,0 +1,30 @@
+name: Build and release
+
+on: 
+  push:
+    branches: [main]
+
+jobs: 
+  release:
+    runs-on: ubuntu@latest
+
+    steps:
+      - uses: actions/checkout@v4 #* Loading all source code
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pyinstaller
+
+      - run: pyinstaller src/main.py --onefile --noconsole
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest #* Release must have a tag
+          name: "Latest release" #* Optional
+          files: dist/*
+        
+        env:
+          GITHUB_TOKEN:   ${{secrets.GITHUB_TOKEN}} #$ This is for the external Github action module (releases) to be able to touch the repo. 
+            #$ this token only exists during the execution of this workflow and then disappears.
+        
