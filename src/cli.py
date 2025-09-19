@@ -23,7 +23,7 @@ def setup_runner():
                 "message": "What do you want to do?",
                 "choices": [
                     "Set up self-hosted runner from scratch", 
-                    "Download self-runner and validate shasum", 
+                    "Download self-runner and extract", 
                     "Run 'configure.sh' and start runner",
                     "Print current working directory (for self-hosted runner)",
                     "Exit"
