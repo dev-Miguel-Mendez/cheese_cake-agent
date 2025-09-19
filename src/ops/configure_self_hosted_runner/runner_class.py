@@ -1,0 +1,67 @@
+import subprocess
+import os
+from colorama import Fore, Back
+
+class SelfHostedRunner:
+
+    SELF_HOSTED_RUNNER_INSTALLATION_DIR_FROM_HOME = os.environ.get('SELF_HOSTED_RUNNER_INSTALLATION_DIR_FROM_HOME')
+    TARBALL_FILE_NAME = "actions-runner-linux-x64-2.328.0.tar.gz"
+    TARGET_GITHUB_REPOSITORY = os.environ.get("TARGET_GITHUB_REPOSITORY")
+    RUNNER_TOKEN = os.environ.get("RUNNER_TOKEN")
+
+    def set_dir(self):
+        print(Fore.BLUE + 'Creating directory and cd into it...' + Fore.RESET)
+        path_from_home = os.path.expanduser("~/") + str(self.SELF_HOSTED_RUNNER_INSTALLATION_DIR_FROM_HOME)
+        subprocess.run(f'mkdir -p {path_from_home}', shell=True) #*  If I run "cd actions-runner" here: it will not persist to the next subprocess
+
+        #$ expanduser("~") will give something like /home/username
+
+        os.chdir(str(path_from_home))
+
+
+
+    def download_tarball(self):
+        print(Fore.BLUE + 'Downloading tarball...' + Fore.RESET)
+        tarball_exists = subprocess.run("test -f " + self.TARBALL_FILE_NAME, shell=True).returncode
+        runner_exists = subprocess.run('test -d bin', shell=True).returncode
+
+        if((tarball_exists != 0) or runner_exists != 0):
+            #$ -o <NAME> → write the downloaded content into a file named <NAME>
+            #$ -L → tells curl to follow redirects (HTTP 3xx). GitHub’s release URLs often redirect to the actual binary storage, so this is required.
+            subprocess.run( f'curl -o {self.TARBALL_FILE_NAME} -L https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-linux-x64-2.328.0.tar.gz', shell=True, capture_output=True)
+            print(Fore.GREEN + 'Tarball downloaded!' + Fore.RESET)
+        else:
+            print(Fore.YELLOW + 'Tarball already exists.' + Fore.RESET)
+
+
+
+
+    def check_shasum(self):
+        print(Fore.BLUE + 'Checking shasum authenticity...' + Fore.RESET)
+        
+        shasum_result = subprocess.run('echo "01066fad3a2893e63e6ca880ae3a1fad5bf9329d60e77ee15f2b97c148c3cd4e  actions-runner-linux-x64-2.328.0.tar.gz" | shasum -a 256 -c', shell=True).returncode
+
+        if shasum_result != 0:
+            raise Exception(Back.RED + 'Shasum check failed. Tarball is possibly corrupted. Exiting...' + Back.RESET)
+        print(Fore.GREEN + 'Shasum check passed!' + Fore.RESET)
+
+
+
+
+    def extract_and_delete_tarball(self):
+        print(Fore.BLUE + "Extracting tarball..." + Fore.RESET)
+
+        subprocess.run(f'tar xzf {self.TARBALL_FILE_NAME}', shell=True)
+        subprocess.run(f'rm {self.TARBALL_FILE_NAME}', shell=True)
+
+
+
+
+    def configure_and_start_runner(self):
+        print(Fore.BLUE + "Configuring  runner and starting runner..." + Fore.RESET)
+        subprocess.run(f"./config.sh --unattended --replace --url {self.TARGET_GITHUB_REPOSITORY} --token {self.RUNNER_TOKEN}", shell=True)
+        subprocess.run("./run.sh")
+        print(Fore.GREEN + "Runner configured and started." + Fore.RESET)
+
+
+

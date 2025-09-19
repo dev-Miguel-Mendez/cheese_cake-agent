@@ -1,0 +1,7 @@
+.venv
+actions-runner
+.env
+
+# === PyInstaller build ===
+dist
+build
