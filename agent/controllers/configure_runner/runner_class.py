@@ -87,7 +87,3 @@ class SelfHostedRunner:
         self._configure_and_start_runner()
 
 
-    def set_runner_absolute_workdir(self, workdir: str):
-        print(workdir)
-        config["runner_absolute_dir"] = workdir
-        print(config["runner_absolute_dir"])

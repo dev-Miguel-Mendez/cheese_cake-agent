@@ -1,13 +1,17 @@
 import json
-from config.config_model import ValidAgentConfig # pylint: disable=all #type: ignore
+from typing import Any
+from agent.config.config_model import ValidAgentConfig # pylint: disable=all #type: ignore
 
 class ConfigRepository:
 
     #* =============== PRIVATE METHODS ===============
 
-    def _get_config_dict(self):
+    def _get_config_dict(self)-> Any:
         with open("agent-config.json", "r") as f:
-            config_dict = json.load(f)
+            try:
+                config_dict: Any = json.load(f)
+            except json.JSONDecodeError: #$ The json file was likely  empty.
+                config_dict = {}
         return config_dict
     
 
