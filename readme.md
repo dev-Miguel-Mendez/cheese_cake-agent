@@ -1,17 +1,32 @@
 
+# Why did you ask to follow module system?
+Because the editor becomes visually clumsy when imported files from nested folders. However, running Python as a script also worked fine.
+
+# How does running Python as a module work?
+Basically, to make sure that we run as a module having your terminal positioned in  "./" where "./agent" is so all imports that start whit "agent" work.
+
+
 # Running the CLI
 
 Run as CLI (src/main.py) with:
 ```
-    python3 src/cli.py
+    python -m src.cli
 ```
 
-Run as server (src/main.py) with:
+# Running the FastAPI server
+### 2 options:
+
+Run "run_server.py":
 ```
-    uvicorn src.server:cheese_cake_server --port 3001 --reload
+    python -m agent.run_server
 ```
 
-All imports will start from where the `main.py` file is located (look at the imports in `main.py`)
+Run directly with Uvicorn:
+```
+    uvicorn agent.server.app:cheese_cake_server --port 3001 --reload
+```
+
+
 
 
 

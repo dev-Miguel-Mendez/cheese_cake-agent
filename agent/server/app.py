@@ -3,6 +3,8 @@ from fastapi import FastAPI, Request
 from agent.controllers.configure_runner.runner_class import SelfHostedRunner 
 from agent.config.config_model import ValidRunnerConfig
 from agent.config.config_repository import ConfigRepository
+from agent.server.models import DefaultResponse
+
 
 runner = SelfHostedRunner()
 config_repository = ConfigRepository()
@@ -29,11 +31,11 @@ def set_runner_absolute_workdir(request: Request):
 
 
 @cheese_cake_server.post("/client/set-runner-config")
-def set_client_config_file(request: ValidRunnerConfig):
+def set_client_config_file(request: ValidRunnerConfig) -> DefaultResponse:
 
     config_object = config_repository.validate_local_config_and_return()
     config_object.runner_config = request
 
     config_repository.save_config_object(config_object)
-    return {'Success': True, "Message": "Config saved."}
+    return {'success': True, "message": "Config saved.", "data": None}
     
