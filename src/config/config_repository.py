@@ -23,7 +23,7 @@ class ConfigRepository:
     
 
     def save_config_object(self, valid_config_object: ValidAgentConfig):
-        with open("agent-config.json") as f:
+        with open("agent-config.json", "w") as f:
             json.dump(valid_config_object.model_dump(), f, indent=4)
 
 

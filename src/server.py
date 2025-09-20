@@ -39,7 +39,11 @@ def set_runner_absolute_workdir(request: Request):
 @cheese_cake_server.post("/client/set-config_file")
 def set_client_config_file(request: ValidRunnerConfig):
     config_repository = ConfigRepository()
-    config_repository.save_config_object(request)
+
+    config_object = config_repository.validate_local_config_and_return()
+    config_object.runner_config = request
+
+    config_repository.save_config_object(config_object)
 
 
 
