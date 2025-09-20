@@ -1,7 +1,6 @@
 import subprocess
 import os
 from colorama import Fore, Back
-from load_config import config
 
 
 
@@ -20,7 +19,7 @@ class SelfHostedRunner:
         #$ expanduser("~") will give something like /home/username
         # path_from_home = os.path.expanduser("~/") + str(self.RUNNER_INSTALLATION_DIR_FROM_HOME)
 
-        runner_dir = config["runner_absolute_dir"]
+        # runner_dir = config["runner_absolute_dir"]
 
         subprocess.run(f'mkdir -p {path_from_home}', shell=True) #*  If I run "cd actions-runner" here: it will not persist to the next subprocess
         os.chdir(str(path_from_home))

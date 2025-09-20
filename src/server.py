@@ -1,15 +1,9 @@
-from fastapi import FastAPI, Request
 from typing import Any
-from pydantic import BaseModel
-from controllers.configure_runner.runner_class import SelfHostedRunner 
-
+from fastapi import FastAPI, Request
 import uvicorn
-
-
-class SetupRunnerRequest(BaseModel):
-    # runner_installation_dir_from_home: str
-    target_github_repository: str
-    runner_token: str
+from controllers.configure_runner.runner_class import SelfHostedRunner 
+from config.config_model import ValidRunnerConfig
+from config.config_repository import ConfigRepository
 
 runner = SelfHostedRunner()
 
@@ -22,17 +16,17 @@ async def print_meta(req: Request, call_next: Any):
     return response
 
 
-@cheese_cake_server.post('/runner/setup')
-def setup_runner(request: SetupRunnerRequest):
+# @cheese_cake_server.post('/runner/setup')
+# def setup_runner(request: SetupRunnerRequest):
 
-    target_github_repository, runner_token = request.target_github_repository, request.runner_token
+#     target_github_repository, runner_token = request.target_github_repository, request.runner_token
 
-    print(target_github_repository)
-    print(runner_token)
+#     print(target_github_repository)
+#     print(runner_token)
 
-    print(request)
+#     print(request)
 
-    return {'hello': 'world'}
+#     return {'hello': 'world'}
 
 
 
@@ -43,8 +37,12 @@ def set_runner_absolute_workdir(request: Request):
     return {'hello': 'world'}
 
 @cheese_cake_server.post("/client/set-config_file")
-def set_client_config_file():
-    pass
+def set_client_config_file(request: ValidRunnerConfig):
+    config_repository = ConfigRepository()
+    config_repository.save_config_object(request)
+
+
+
 
 if __name__ == "__main__":
     #- Running Uvicorn as a script instead of as a module.
