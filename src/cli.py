@@ -1,40 +1,54 @@
-import subprocess
-import questionary
-import bootstrap_env # pylint: disable=all #type: ignore
-from typing import Callable, Dict, Any
-from controllers.configure_runner.runner_class import SelfHostedRunner 
+print(__name__)
+print(__package__)
 
-runner = SelfHostedRunner()
-
-actions: Dict[str, Callable[[], Any]] = {
-    "Set up self-hosted runner from scratch": lambda: (
-        runner.setup_runner_from_scratch(),
-        print(" You can pass multiple functions to a Lambda.")
-    ),
-    "Download self-runner and extract": runner.download_and_extract,
-    "Run 'configure.sh' and start runner": runner.configure_and_start_runner,
-    "Print current working directory (for self-hosted runner)": lambda: subprocess.run("pwd"),
-    "Exit": lambda: exit(0)
-
-}
+# import subprocess
+# import questionary
+import src.bootstrap_env # pylint: disable=all #type: ignore
+# from typing import Callable, Dict, Any
+# from controllers.configure_runner.runner_class import SelfHostedRunner 
 
 
-def setup_runner():
-    subprocess.run("clear") #* Clear terminal
+
+
+
+
+
+
+
+
+
+
+# runner = SelfHostedRunner()
+
+# actions: Dict[str, Callable[[], Any]] = {
+#     "Set up self-hosted runner from scratch": lambda: (
+#         runner.setup_runner_from_scratch(),
+#         print(" You can pass multiple functions to a Lambda.")
+#     ),
+#     "Download self-runner and extract": runner.download_and_extract,
+#     "Run 'configure.sh' and start runner": runner.configure_and_start_runner,
+#     "Print current working directory (for self-hosted runner)": lambda: subprocess.run("pwd"),
+#     "Exit": lambda: exit(0)
+
+# }
+
+
+# def setup_runner():
+#     subprocess.run("clear") #* Clear terminal
 
     
 
-    while True:
+#     while True:
 
-        result = questionary.prompt([
-            {
-                "type": "select",
-                "name": "action",
-                "message": "What do you want to do?",
-                "choices": list(actions.keys())
-            }
-        ])
+#         result = questionary.prompt([
+#             {
+#                 "type": "select",
+#                 "name": "action",
+#                 "message": "What do you want to do?",
+#                 "choices": list(actions.keys())
+#             }
+#         ])
 
-        actions[result["action"]]()
+#         actions[result["action"]]()
             
-setup_runner()
+# setup_runner()

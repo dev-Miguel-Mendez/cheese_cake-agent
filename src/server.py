@@ -1,6 +1,9 @@
 from fastapi import FastAPI, Request
 from typing import Any
 from pydantic import BaseModel
+from controllers.configure_runner.runner_class import SelfHostedRunner 
+
+import uvicorn
 
 
 class SetupRunnerRequest(BaseModel):
@@ -8,7 +11,7 @@ class SetupRunnerRequest(BaseModel):
     target_github_repository: str
     runner_token: str
 
-
+runner = SelfHostedRunner()
 
 cheese_cake_server = FastAPI()
 
@@ -33,11 +36,17 @@ def setup_runner(request: SetupRunnerRequest):
 
 
 
-@cheese_cake_server.post("/client/set-workdir")
-def set_client_workdir(request: Request):
+@cheese_cake_server.post("/runner/set-absolute-workdir")
+def set_runner_absolute_workdir(request: Request):
+    # config['runner_absolute_dir'] = request.json()["runner_absolute_dir"]
+    runner.set_runner_absolute_workdir("LOL")
+    return {'hello': 'world'}
+
+@cheese_cake_server.post("/client/set-config_file")
+def set_client_config_file():
     pass
 
-
-@cheese_cake_server("/client/set-config_file")
-def set_client_config_file():
-    
+if __name__ == "__main__":
+    #- Running Uvicorn as a script instead of as a module.
+    #$ Need to pass application as import string
+    uvicorn.run("server:cheese_cake_server",  host="0.0.0.0", port=3001, reload=True)

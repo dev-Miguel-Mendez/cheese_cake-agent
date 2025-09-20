@@ -1,6 +1,10 @@
 import subprocess
 import os
 from colorama import Fore, Back
+from load_config import config
+
+
+
 
 class SelfHostedRunner:
 
@@ -14,7 +18,10 @@ class SelfHostedRunner:
     def _set_dir(self):
         print(Fore.BLUE + "Creating directory and cd'ing into it..." + Fore.RESET)
         #$ expanduser("~") will give something like /home/username
-        path_from_home = os.path.expanduser("~/") + str(self.RUNNER_INSTALLATION_DIR_FROM_HOME)
+        # path_from_home = os.path.expanduser("~/") + str(self.RUNNER_INSTALLATION_DIR_FROM_HOME)
+
+        runner_dir = config["runner_absolute_dir"]
+
         subprocess.run(f'mkdir -p {path_from_home}', shell=True) #*  If I run "cd actions-runner" here: it will not persist to the next subprocess
         os.chdir(str(path_from_home))
 
@@ -79,3 +86,9 @@ class SelfHostedRunner:
     def configure_and_start_runner(self):
         self._set_dir()
         self._configure_and_start_runner()
+
+
+    def set_runner_absolute_workdir(self, workdir: str):
+        print(workdir)
+        config["runner_absolute_dir"] = workdir
+        print(config["runner_absolute_dir"])
