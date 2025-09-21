@@ -1,25 +1,27 @@
 import subprocess
 import os
 from colorama import Fore, Back
-
+from agent.config.config_repository import ConfigRepository
 
 
 
 class SelfHostedRunner:
 
-    RUNNER_INSTALLATION_DIR_FROM_HOME = os.environ.get('RUNNER_INSTALLATION_DIR_FROM_HOME')
-    TARBALL_FILE_NAME = "actions-runner-linux-x64-2.328.0.tar.gz"
-    TARGET_GITHUB_REPOSITORY = os.environ.get("TARGET_GITHUB_REPOSITORY")
-    RUNNER_TOKEN = os.environ.get("RUNNER_TOKEN")
+    def __init__(self):
+        config_repository = ConfigRepository()
+        runner_config = config_repository.validate_runner_config_and_return()
+
+
     RUNNER_DOWNLOAD_URL = "https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-linux-x64-2.328.0.tar.gz"
 
     #* =============== PRIVATE METHODS ===============
-    def _set_dir(self):
+    def _move_to_dir(self):
         print(Fore.BLUE + "Creating directory and cd'ing into it..." + Fore.RESET)
-        #$ expanduser("~") will give something like /home/username
+        #$ expanduser("~") will give something like /home/username. If the path is absolute, it will just return the path.
         # path_from_home = os.path.expanduser("~/") + str(self.RUNNER_INSTALLATION_DIR_FROM_HOME)
 
-        # runner_dir = config["runner_absolute_dir"]
+        installation_path = self.runner_config
+
 
         subprocess.run(f'mkdir -p {path_from_home}', shell=True) #*  If I run "cd actions-runner" here: it will not persist to the next subprocess
         os.chdir(str(path_from_home))
@@ -69,7 +71,7 @@ class SelfHostedRunner:
 
 
     def setup_runner_from_scratch(self):
-        self._set_dir()
+        self._move_to_dir()
         self._download_tarball()
         self._check_shasum()
         self._extract_and_delete_tarball()
@@ -77,13 +79,13 @@ class SelfHostedRunner:
         print(Back.GREEN + 'Success' + Back.RESET)
 
     def download_and_extract(self):
-        self._set_dir()
+        self._move_to_dir()
         self._download_tarball()
         self._check_shasum()
         self._extract_and_delete_tarball()
 
     def configure_and_start_runner(self):
-        self._set_dir()
+        self._move_to_dir()
         self._configure_and_start_runner()
 
 

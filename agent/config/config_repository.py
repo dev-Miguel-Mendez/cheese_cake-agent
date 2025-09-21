@@ -1,30 +1,37 @@
 import json
 from typing import Any
-from agent.config.config_model import ValidAgentConfig # pylint: disable=all #type: ignore
+from agent.config.config_model import ValidAgentConfig, ValidRunnerConfig 
 
 class ConfigRepository:
 
     #* =============== PRIVATE METHODS ===============
 
-    def _get_config_dict(self)-> Any:
+    def _get_agent_config_dict(self)-> Any:
         with open("agent-config.json", "r") as f:
             try:
-                config_dict: Any = json.load(f)
+                agent_config_dict: Any = json.load(f)
             except json.JSONDecodeError: #$ The json file was likely  empty.
-                config_dict = {}
-        return config_dict
+                agent_config_dict = {}
+        return agent_config_dict
     
 
 
     #* =============== PUBLIC METHODS ===============
     
-    def validate_local_config_and_return(self) -> ValidAgentConfig:
-        config_dict = self._get_config_dict() 
-
-        #*Validating config and getting it as object
-        config = ValidAgentConfig(**config_dict)
-        return config
+    # def validate_agent_config_and_return(self) -> ValidAgentConfig:
+    #     agent_config_dict = self._get_agent_config_dict() 
+    #     #*Validating config and getting it as object
+    #     agent_config = ValidAgentConfig(**agent_config_dict)
+    #     return agent_config
     
+
+
+    def validate_runner_config_and_return(self) -> ValidRunnerConfig:
+        agent_config_dict = self._get_agent_config_dict()
+        #*Validating config and getting it as object
+        runner_config = ValidRunnerConfig(**agent_config_dict["runner_config"])
+        return runner_config
+
 
     def save_config_object(self, valid_config_object: ValidAgentConfig):
         with open("agent-config.json", "w") as f:

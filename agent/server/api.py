@@ -1,7 +1,7 @@
 from typing import Any
 from fastapi import FastAPI, Request
 from agent.controllers.configure_runner.runner_class import SelfHostedRunner 
-from agent.config.config_model import ValidRunnerConfig
+from agent.config.config_model import ValidRunnerConfig, ValidAgentConfig
 from agent.config.config_repository import ConfigRepository
 from agent.server.models import DefaultResponse
 
@@ -25,6 +25,7 @@ async def print_meta(req: Request, call_next: Any):
 
 @cheese_cake_server.post("/runner/set-absolute-workdir")
 def set_runner_absolute_workdir(request: Request):
+    #! This will only work if the rest of the json config is already set
     return {'hello': 'world'}
 
 
@@ -33,9 +34,8 @@ def set_runner_absolute_workdir(request: Request):
 @cheese_cake_server.post("/client/set-runner-config")
 def set_client_config_file(request: ValidRunnerConfig) -> DefaultResponse:
 
-    config_object = config_repository.validate_local_config_and_return()
-    config_object.runner_config = request
+    agent_config = ValidAgentConfig(runner_config=request)
 
-    config_repository.save_config_object(config_object)
+    config_repository.save_config_object(agent_config)
     return {'success': True, "message": "Config saved.", "data": None}
     

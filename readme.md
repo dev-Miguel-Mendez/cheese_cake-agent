@@ -23,7 +23,7 @@ Run "run_server.py":
 
 Run directly with Uvicorn:
 ```
-    uvicorn agent.server.app:cheese_cake_server --port 3001 --reload
+    uvicorn agent.server.api:cheese_cake_server --port 3001 --reload
 ```
 
 
