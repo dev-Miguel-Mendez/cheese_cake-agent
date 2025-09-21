@@ -7,6 +7,7 @@ from agent.config.config_repository import ConfigRepository
 
 class SelfHostedRunner:
 
+
     def __init__(self):
         config_repository = ConfigRepository()
         self.runner_config = config_repository.validate_runner_config_and_return()
