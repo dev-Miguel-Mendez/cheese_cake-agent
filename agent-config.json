@@ -1,8 +1,0 @@
-{
-    "runner_config": {
-        "runner_installation_dir": "~/Desktop/cheese_cake/actions-runner",
-        "tarball_file_name": "actions-runner-linux-x64-2.328.0.tar.gz",
-        "target_github_repository": "https://github.com/dev-Miguel-Mendez/self_hosted_runner_test",
-        "runner_token": "BJNKPU2U2BHXL5RG7F4KCJ3IZ4VGY"
-    }
-}

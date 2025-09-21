@@ -1,6 +1,8 @@
 .venv
 actions-runner
 .env
+agent-config.json
+
 
 # === PyInstaller build ===
 dist
