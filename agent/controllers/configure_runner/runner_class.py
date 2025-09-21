@@ -9,7 +9,7 @@ class SelfHostedRunner:
 
     def __init__(self):
         config_repository = ConfigRepository()
-        runner_config = config_repository.validate_runner_config_and_return()
+        self.runner_config = config_repository.validate_runner_config_and_return()
 
 
     RUNNER_DOWNLOAD_URL = "https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-linux-x64-2.328.0.tar.gz"
@@ -18,13 +18,11 @@ class SelfHostedRunner:
     def _move_to_dir(self):
         print(Fore.BLUE + "Creating directory and cd'ing into it..." + Fore.RESET)
         #$ expanduser("~") will give something like /home/username. If the path is absolute, it will just return the path.
-        # path_from_home = os.path.expanduser("~/") + str(self.RUNNER_INSTALLATION_DIR_FROM_HOME)
+        installation_path = os.path.expanduser(self.runner_config.runner_installation_dir)
 
-        installation_path = self.runner_config
+        subprocess.run(f"mkdir -p {installation_path}", shell=True)  #*  If I run "cd actions-runner" here: it will not persist to the next subprocess
 
-
-        subprocess.run(f'mkdir -p {path_from_home}', shell=True) #*  If I run "cd actions-runner" here: it will not persist to the next subprocess
-        os.chdir(str(path_from_home))
+        os.chdir(installation_path)
 
 
 

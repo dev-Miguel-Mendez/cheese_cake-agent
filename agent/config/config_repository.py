@@ -17,14 +17,6 @@ class ConfigRepository:
 
 
     #* =============== PUBLIC METHODS ===============
-    
-    # def validate_agent_config_and_return(self) -> ValidAgentConfig:
-    #     agent_config_dict = self._get_agent_config_dict() 
-    #     #*Validating config and getting it as object
-    #     agent_config = ValidAgentConfig(**agent_config_dict)
-    #     return agent_config
-    
-
 
     def validate_runner_config_and_return(self) -> ValidRunnerConfig:
         agent_config_dict = self._get_agent_config_dict()
