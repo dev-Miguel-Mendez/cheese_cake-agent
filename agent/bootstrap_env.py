@@ -6,11 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv('.env')
 
-REQUIRED_ENV_VARS= [
-    "RUNNER_INSTALLATION_DIR_FROM_HOME",
-    "TARGET_GITHUB_REPOSITORY",
-    "RUNNER_TOKEN"
-]
+REQUIRED_ENV_VARS:  list[str] = []
 
 for env_var in REQUIRED_ENV_VARS:
     if not os.environ.get(env_var):
