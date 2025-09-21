@@ -1,8 +1,8 @@
 
+from typing import Callable, Dict, Any
 import subprocess
 import questionary
-from typing import Callable, Dict, Any
-from agent.controllers.configure_runner.runner_class import SelfHostedRunner 
+from agent.controllers.runner_class import SelfHostedRunner 
 import agent.bootstrap_env # type: ignore # pylint: disable=unused-import
 
 
