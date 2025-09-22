@@ -3,7 +3,7 @@ import os
 from colorama import Fore, Back
 from agent.config.config_repository import ConfigRepository
 
-class SelfHostedRunner:
+class  SelfHostedRunner:
 
     runner_hash = "01066fad3a2893e63e6ca880ae3a1fad5bf9329d60e77ee15f2b97c148c3cd4e"
 
@@ -59,11 +59,14 @@ class SelfHostedRunner:
 
     def _configure_and_start_runner(self):
         print(Fore.BLUE + "Configuring  runner and starting runner..." + Fore.RESET)
+
+        #* We can let this be blocking. It auto exits with a return code.
         config_run =  subprocess.run(f"./config.sh --unattended --replace --url {self.config.target_github_repository} --token {self.config.runner_token}", shell=True)
 
         if config_run.returncode !=0:
             raise Exception(Fore.RED + "Configuring 'config.sh' failed POSSIBLY  DUE TO EXPIRED/INVALID TOKEN" + Fore.RESET)
 
+        #* This will be pending in background. If we tried "capture_output=True" Python will keep buffering output in memory.
         subprocess.run("./run.sh")
         print(Fore.GREEN + "Runner configured and started." + Fore.RESET)
 

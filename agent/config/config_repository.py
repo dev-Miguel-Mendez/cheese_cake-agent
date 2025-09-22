@@ -5,9 +5,13 @@ from agent.config.config_model import ValidAgentConfig, ValidRunnerConfig, BaseR
 class ConfigRepository:
 
     def __init__(self):
-        #* This will genertate "agent-config.json" if it doesn't exist.
-        valid_agent_config = ValidAgentConfig(runner_config=BaseRunnerConfig())
-        self.save_agent_config_object(valid_agent_config)
+
+        config_dict = self._get_agent_config_dict()
+        if "runner_config" not in config_dict:
+            #* This will generate "agent-config.json" if it doesn't exist.
+            valid_agent_config = ValidAgentConfig(runner_config=BaseRunnerConfig())
+            self.save_agent_config_object(valid_agent_config)
+
 
     #* =============== PRIVATE METHODS ===============
 
