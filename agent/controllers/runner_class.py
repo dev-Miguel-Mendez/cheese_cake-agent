@@ -77,7 +77,7 @@ class  SelfHostedRunner:
         timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
         with open(f"runner_run_{timestamp}", "w") as f:
-            subprocess.Popen("./run.sh", stdout=f, stderr=subprocess.STDOUT)
+            subprocess.Popen("./run.sh", stdout=f, stderr=f)
 
         
 
@@ -106,5 +106,3 @@ class  SelfHostedRunner:
     def configure_and_start_runner(self):
         self._move_to_dir()
         self._configure_and_start_runner()
-
-
