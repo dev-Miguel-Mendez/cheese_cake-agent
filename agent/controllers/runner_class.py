@@ -3,8 +3,7 @@ import os
 from colorama import Fore, Back
 from agent.config.config_repository import ConfigRepository
 
-
-
+#! THIS CAN'T EXIST WITH MISSING CONFIG
 class SelfHostedRunner:
 
     runner_hash = "01066fad3a2893e63e6ca880ae3a1fad5bf9329d60e77ee15f2b97c148c3cd4e"
@@ -12,7 +11,6 @@ class SelfHostedRunner:
     def __init__(self):
         config_repository = ConfigRepository()
         self.config = config_repository.validate_runner_config_and_return()
-
 
     RUNNER_DOWNLOAD_URL = "https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-linux-x64-2.328.0.tar.gz"
 

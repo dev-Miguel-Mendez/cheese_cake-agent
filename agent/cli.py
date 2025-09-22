@@ -11,15 +11,14 @@ import agent.bootstrap_env # type: ignore # pylint: disable=unused-import
 
 
 
-runner = SelfHostedRunner()
 
 actions: Dict[str, Callable[[], Any]] = {
     "Set up self-hosted runner from scratch": lambda: (
-        runner.setup_runner_from_scratch(),
+        SelfHostedRunner().setup_runner_from_scratch(),
         print(" You can pass multiple functions to a Lambda.")
     ),
-    "Download self-runner and extract": runner.download_and_extract,
-    "Run 'configure.sh' and start runner": runner.configure_and_start_runner,
+    "Download self-runner and extract": lambda:(SelfHostedRunner().download_and_extract()),
+    "Run 'configure.sh' and start runner": lambda:(SelfHostedRunner().configure_and_start_runner()),
     "Print current working directory (for self-hosted runner)": lambda: subprocess.run("pwd"),
     "Exit": lambda: exit(0)
 
