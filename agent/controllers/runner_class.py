@@ -61,7 +61,7 @@ class  SelfHostedRunner:
         print(Fore.BLUE + "Configuring  runner and starting runner..." + Fore.RESET)
 
         #* We can let this be blocking. It auto exits with a return code.
-        config_run =  subprocess.run(f"./config.sh --unattended --replace --url {self.config.target_github_repository} --token {self.config.runner_token}", shell=True)
+        config_run =  subprocess.run(f"./config.sh --unattended --replace --url {self.config.target_github_repository} --token {self.config. runner_token}", shell=True)
 
         if config_run.returncode !=0:
             raise Exception(Fore.RED + "Configuring 'config.sh' failed POSSIBLY  DUE TO EXPIRED/INVALID TOKEN" + Fore.RESET)
