@@ -33,11 +33,9 @@ def set_runner_absolute_workdir(request: Request):
 @cheese_cake_server.post("/runner/set-config")
 def set_client_config_file(request: ValidRunnerConfig) -> DefaultResponse:
 
-    print(request)
-
     agent_config = ValidAgentConfig(runner_config=request)
 
-    config_repository.save_config_object(agent_config)
+    config_repository.save_agent_config_object(agent_config)
     return {'success': True, "message": "Config saved.", "data": None}
 
 

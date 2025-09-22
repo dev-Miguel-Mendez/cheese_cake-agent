@@ -3,7 +3,6 @@ import os
 from colorama import Fore, Back
 from agent.config.config_repository import ConfigRepository
 
-#! THIS CAN'T EXIST WITH MISSING CONFIG
 class SelfHostedRunner:
 
     runner_hash = "01066fad3a2893e63e6ca880ae3a1fad5bf9329d60e77ee15f2b97c148c3cd4e"
