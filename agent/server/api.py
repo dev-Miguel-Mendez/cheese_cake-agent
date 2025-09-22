@@ -17,7 +17,7 @@ async def print_meta(req: Request, call_next: Any):
 
 @cheese_cake_server.exception_handler(RunnerException)
 def handle_runner_exception(_req: Request, exc: RunnerException):
-    return JSONResponse(status_code=401, content={"message": exc.message})
+    return JSONResponse(status_code=401, content={"error_message": exc.message})
 
 
 cheese_cake_server.post("/runner/set-config")(set_runner_config_file)

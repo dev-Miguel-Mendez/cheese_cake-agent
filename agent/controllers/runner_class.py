@@ -47,9 +47,6 @@ class  SelfHostedRunner:
         
         shasum_result = subprocess.run(f'echo "{self.runner_hash}  {self.config.tarball_file_name}" | shasum -a 256 -c', shell=True)
 
-        raise RunnerException("Test")
-
-
         if shasum_result.returncode != 0:
             raise RunnerException(Back.RED + 'Shasum check failed. Tarball is possibly corrupted. Exiting...' + Back.RESET)
         print(Fore.GREEN + 'Shasum check passed!' + Fore.RESET)
