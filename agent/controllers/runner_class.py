@@ -3,6 +3,10 @@ import os
 from colorama import Fore, Back
 from agent.config.config_repository import ConfigRepository
 
+class RunnerException(Exception):
+    def __init__(self, message: str):
+        self.message = message
+
 class  SelfHostedRunner:
 
     runner_hash = "01066fad3a2893e63e6ca880ae3a1fad5bf9329d60e77ee15f2b97c148c3cd4e"
@@ -43,8 +47,11 @@ class  SelfHostedRunner:
         
         shasum_result = subprocess.run(f'echo "{self.runner_hash}  {self.config.tarball_file_name}" | shasum -a 256 -c', shell=True)
 
+        raise RunnerException("Test")
+
+
         if shasum_result.returncode != 0:
-            raise Exception(Back.RED + 'Shasum check failed. Tarball is possibly corrupted. Exiting...' + Back.RESET)
+            raise RunnerException(Back.RED + 'Shasum check failed. Tarball is possibly corrupted. Exiting...' + Back.RESET)
         print(Fore.GREEN + 'Shasum check passed!' + Fore.RESET)
 
 
