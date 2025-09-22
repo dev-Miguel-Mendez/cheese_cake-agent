@@ -1,5 +1,6 @@
 import subprocess
 import os
+import datetime
 from colorama import Fore, Back
 from agent.config.config_repository import ConfigRepository
 
@@ -70,8 +71,18 @@ class  SelfHostedRunner:
         if config_run.returncode !=0:
             raise RunnerException(Fore.RED + "Configuring 'config.sh' failed POSSIBLY  DUE TO EXPIRED/INVALID TOKEN" + Fore.RESET)
 
-        #* This will be pending in background. If we tried "capture_output=True" Python will keep buffering output in memory.
-        subprocess.run("./run.sh")
+        #* This will be pending in background because it is a FORGROUND process. If we tried "capture_output=True" Python will keep buffering output in memory.
+        # subprocess.run("./run.sh")
+
+        timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+
+        with open(f"runner_run_{timestamp}", "w") as f:
+            subprocess.Popen("./run.sh", stdout=f, stderr=subprocess.STDOUT)
+
+        
+
+
+        
         print(Fore.GREEN + "Runner configured and started." + Fore.RESET)
 
 
