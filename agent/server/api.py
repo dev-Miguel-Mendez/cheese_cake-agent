@@ -15,9 +15,10 @@ async def print_meta(req: Request, call_next: Any):
     response = await call_next(req)
     return response
 
+#$ This will catch  only exceptions raised by "raise RunnerException"
 @cheese_cake_server.exception_handler(RunnerException)
 def handle_runner_exception(_req: Request, exc: RunnerException):
-    return JSONResponse(status_code=401, content={"error_message": exc.message})
+    return JSONResponse(status_code=401, content={"Error while using runner:": exc.message})
 
 
 cheese_cake_server.post("/runner/set-config")(set_runner_config_file)

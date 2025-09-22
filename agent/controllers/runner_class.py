@@ -10,12 +10,12 @@ class RunnerException(Exception):
 class  SelfHostedRunner:
 
     runner_hash = "01066fad3a2893e63e6ca880ae3a1fad5bf9329d60e77ee15f2b97c148c3cd4e"
+    RUNNER_DOWNLOAD_URL = "https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-linux-x64-2.328.0.tar.gz"
 
     def __init__(self):
         config_repository = ConfigRepository()
         self.config = config_repository.validate_runner_config_and_return()
 
-    RUNNER_DOWNLOAD_URL = "https://github.com/actions/runner/releases/download/v2.328.0/actions-runner-linux-x64-2.328.0.tar.gz"
 
     #* =============== PRIVATE METHODS ===============
     def _move_to_dir(self):
@@ -68,7 +68,7 @@ class  SelfHostedRunner:
         config_run =  subprocess.run(f"./config.sh --unattended --replace --url {self.config.target_github_repository} --token {self.config. runner_token}", shell=True)
 
         if config_run.returncode !=0:
-            raise Exception(Fore.RED + "Configuring 'config.sh' failed POSSIBLY  DUE TO EXPIRED/INVALID TOKEN" + Fore.RESET)
+            raise RunnerException(Fore.RED + "Configuring 'config.sh' failed POSSIBLY  DUE TO EXPIRED/INVALID TOKEN" + Fore.RESET)
 
         #* This will be pending in background. If we tried "capture_output=True" Python will keep buffering output in memory.
         subprocess.run("./run.sh")
