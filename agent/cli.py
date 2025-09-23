@@ -2,7 +2,7 @@
 from typing import Callable, Dict, Any
 import subprocess
 import questionary
-from agent.modules.runner_class import SelfHostedRunner 
+from agent.modules.runner.runner_class import SelfHostedRunner 
 import agent.bootstrap_env # type: ignore # pylint: disable=unused-import
 
 
