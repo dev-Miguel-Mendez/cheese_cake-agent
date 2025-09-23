@@ -11,15 +11,21 @@ from agent.modules.runner.methods.configure_and_start_runner import configure_an
 
 class  SelfHostedRunner:
 
-    def __init__(self):
-        self.config = ConfigRepository().validate_runner_dict_and_return()
-        subprocess.run(f"mkdir -p {self.config.path_to_runner}", shell=True) 
 
     
-    original_dir = os.getcwd() #$ This will be needed the program to return to the app directory after running "os.chdir". If not, subsequent request won't be able to find files such as "agent-config.json".
+    original_dir = os.getcwd() #$ This will be needed the program to return to the INITIAL APP DIRECTORY after running "os.chdir". If not, subsequent request won't be able to find files such as "agent-config.json".
 
+    config = ConfigRepository().validate_runner_dict_and_return()
+
+    def __init__(self):
+        subprocess.run(f"mkdir -p {os.path.expanduser(self.config.path_to_runner)}", shell=True) #* Won't fail if the directory already exists
 
     #* =============== PRIVATE METHODS ===============
+
+    def _move_to_runner_dir(self):
+        expanded_path_to_runner = os.path.expanduser(self.config.path_to_runner)
+        os.chdir(expanded_path_to_runner) #* If I ran "cd actions-runner" here: it will not persist to the next subprocess.
+
 
     def _download_tarball(self):
         download_tarball(self.config.tarball_file_name)
@@ -41,7 +47,7 @@ class  SelfHostedRunner:
 
 
     def setup_runner_from_scratch(self):
-        os.chdir(self.config.path_to_runner) #*  If I ran "cd actions-runner" here: it will not persist to the next subprocess.
+        self._move_to_runner_dir()
         self._download_tarball()
         self._check_shasum()
         self._extract_and_delete_tarball()
@@ -50,13 +56,13 @@ class  SelfHostedRunner:
         os.chdir(self.original_dir)
 
     def download_and_extract(self):
-        os.chdir(self.config.path_to_runner) #*  If I ran "cd actions-runner" here: it will not persist to the next subprocess.
+        self._move_to_runner_dir()
         self._download_tarball()
         self._check_shasum()
         self._extract_and_delete_tarball()
         os.chdir(self.original_dir)
 
     def configure_and_start_runner(self):
-        os.chdir(self.config.path_to_runner) #*  If I ran "cd actions-runner" here: it will not persist to the next subprocess.
+        self._move_to_runner_dir()
         self._configure_and_start_runner()
         os.chdir(self.original_dir)

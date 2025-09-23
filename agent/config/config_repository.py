@@ -34,7 +34,10 @@ class ConfigRepository:
     #* =============== PUBLIC METHODS ===============
 
     def validate_runner_dict_and_return(self) -> ValidRunnerConfig:
+
+
         agent_config_dict = self._get_agent_config_dict()
+        print(agent_config_dict)
 
         #*Validating config and getting it as object
         return ValidRunnerConfig(**agent_config_dict["runner_config"])

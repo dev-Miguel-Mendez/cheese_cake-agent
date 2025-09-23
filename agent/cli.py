@@ -8,6 +8,7 @@ import agent.bootstrap_env # type: ignore # pylint: disable=unused-import
 
 
 
+subprocess.run("clear") #* Clear terminal
 
 
 
@@ -24,10 +25,7 @@ actions: Dict[str, Callable[[], Any]] = {
 }
 
 
-def setup_runner():
-    subprocess.run("clear") #* Clear terminal
-
-    
+def start_cli():
 
     while True:
 
@@ -42,4 +40,4 @@ def setup_runner():
 
         actions[result["action"]]()
             
-setup_runner()
+start_cli()
