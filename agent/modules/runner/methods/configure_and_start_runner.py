@@ -17,6 +17,7 @@ def configure_and_start_runner(target_github_repository: str, runner_token: str)
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
-    with open(f"runner_run_{timestamp}", "w") as f:
+    with open(f"cheese_cake_runner_logs/runner_run_{timestamp}", "w") as f:
+        #$ This will create a file wherever "os.chdir()" was called.
         subprocess.Popen("./run.sh", stdout=f, stderr=f)
     print(Fore.GREEN + "Runner configured and started." + Fore.RESET)

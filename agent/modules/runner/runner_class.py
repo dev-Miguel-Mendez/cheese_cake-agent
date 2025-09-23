@@ -15,7 +15,7 @@ class  SelfHostedRunner:
 
     def __init__(self):
         config_repository = ConfigRepository()
-        self.config = config_repository.validate_runner_config_and_return()
+        self.config = config_repository.validate_runner_dict_and_return()
 
 
     #* =============== PRIVATE METHODS ===============

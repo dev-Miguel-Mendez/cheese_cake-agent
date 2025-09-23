@@ -27,20 +27,18 @@ class ConfigRepository:
 
     #* =============== PUBLIC METHODS ===============
 
-    def validate_runner_config_and_return(self) -> ValidRunnerConfig:
+    def validate_runner_dict_and_return(self) -> ValidRunnerConfig:
         agent_config_dict = self._get_agent_config_dict()
-        # if "runner_config" not in agent_config_dict:
-            # raise Exception(Fore.RED + "No runner config found." + Fore.RESET) #! This shouldn't happen, a default config should always be set
-
-        
+        #! We don't handle a case where the agent config doesn't have  "runner_config"  Since it should always be initiated with one. Otherwise "**agent_config_dict["runner_config"]" would  cause a key error.
 
         #*Validating config and getting it as object
-        runner_config = ValidRunnerConfig(**agent_config_dict["runner_config"])
-        return runner_config
+        return ValidRunnerConfig(**agent_config_dict["runner_config"])
+        
 
 
     def save_agent_config_object(self, valid_config_object: ValidAgentConfig):
         with open("agent-config.json", "w") as f:
-            json.dump(valid_config_object.model_dump(), f, indent=4)
+            #! Honestly still not to sure of what "serialize_as_any=True" does but it works. I was having issues where when "model_dump()" only was excluding properties that belonged to ValidRunnerConfig and not BaseRunnerConfig
+            json.dump(valid_config_object.model_dump(serialize_as_any=True), f, indent=4)
 
 
