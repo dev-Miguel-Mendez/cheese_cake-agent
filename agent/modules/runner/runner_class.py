@@ -1,3 +1,4 @@
+import os
 from colorama import Back
 from agent.config.config_repository import ConfigRepository
 from agent.modules.runner.methods.move_to_dir import move_to_dir
@@ -20,7 +21,7 @@ class  SelfHostedRunner:
 
     #* =============== PRIVATE METHODS ===============
     def _move_to_dir(self):
-        move_to_dir(self.config.runner_installation_dir)
+        os.chdir(self.config.path_to_runner) #*  If I ran "cd actions-runner" here: it will not persist to the next subprocess
 
 
     def _download_tarball(self):

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class BaseRunnerConfig(BaseModel): #* This will be used to the instantiate config_repository and output the default "agent-config.json".
-    runner_installation_dir: str = "~/Desktop/cheese_cake/actions-runner"
+    path_to_runner: str = "~/Desktop/cheese_cake/actions-runner"
     tarball_file_name: str = "actions-runner-linux-x64-2.328.0.tar.gz"
 
 
