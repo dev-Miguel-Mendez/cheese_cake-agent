@@ -1,6 +1,6 @@
 import subprocess
 from colorama import Fore
-from agent.modules.runner.runner_class import RunnerException
+from agent.modules.runner.runner_exception import RunnerException
 import datetime
 
 def configure_and_start_runner(target_github_repository: str, runner_token: str):

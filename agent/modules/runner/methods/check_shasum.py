@@ -1,6 +1,6 @@
 import subprocess
 from colorama import Fore, Back
-from agent.modules.runner.runner_class import RunnerException
+from agent.modules.runner.runner_exception import RunnerException
 
 def check_shasum(runner_hash: str, tarball_file_name: str):
     print(Fore.BLUE + 'Checking shasum authenticity...' + Fore.RESET)

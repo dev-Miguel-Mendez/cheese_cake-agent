@@ -1,7 +1,7 @@
 from typing import Any
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from agent.modules.runner.runner_class import RunnerException
+from agent.modules.runner.runner_exception import RunnerException
 from agent.server.controllers.set_runner_config import set_runner_config_file
 from agent.server.controllers.download_and_config import download_runner_and_config
 

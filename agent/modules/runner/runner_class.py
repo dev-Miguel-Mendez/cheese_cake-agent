@@ -6,9 +6,7 @@ from agent.modules.runner.methods.check_shasum import check_shasum
 from agent.modules.runner.methods.extract_and_delete_tarball import extract_and_delete_tarball
 from agent.modules.runner.methods.configure_and_start_runner import configure_and_start_runner
 
-class RunnerException(Exception):
-    def __init__(self, message: str):
-        self.message = message
+
 
 class  SelfHostedRunner:
 
