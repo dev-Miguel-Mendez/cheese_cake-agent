@@ -35,7 +35,7 @@ Run directly with Uvicorn:
 
 
 
-# For PyInstaller    -
+# For PyInstaller 
 ```
-    pyinstaller src/main.py --onefile --noconsole --name "cheese_cake"
+    pyinstaller agent/run_server.py --onefile --name cheesecake 
 ```
