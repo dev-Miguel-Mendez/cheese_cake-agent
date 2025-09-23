@@ -1,5 +1,5 @@
 from agent.server.models import DefaultResponse
-from agent.controllers.runner_class import SelfHostedRunner
+from agent.modules.runner_class import SelfHostedRunner
 
 
 def download_runner_and_config() -> DefaultResponse:

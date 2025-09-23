@@ -2,7 +2,7 @@
 from typing import Callable, Dict, Any
 import subprocess
 import questionary
-from agent.controllers.runner_class import SelfHostedRunner 
+from agent.modules.runner_class import SelfHostedRunner 
 import agent.bootstrap_env # type: ignore # pylint: disable=unused-import
 
 
@@ -15,7 +15,6 @@ import agent.bootstrap_env # type: ignore # pylint: disable=unused-import
 actions: Dict[str, Callable[[], Any]] = {
     "Set up self-hosted runner from scratch": lambda: (
         SelfHostedRunner().setup_runner_from_scratch(),
-        print(" You can pass multiple functions to a Lambda.")
     ),
     "Download self-runner and extract": lambda:(SelfHostedRunner().download_and_extract()),
     "Run 'configure.sh' and start runner": lambda:(SelfHostedRunner().configure_and_start_runner()),

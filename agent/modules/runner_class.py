@@ -18,15 +18,17 @@ class  SelfHostedRunner:
         self.config = config_repository.validate_runner_config_and_return()
 
 
+
+
     #* =============== PRIVATE METHODS ===============
     def _move_to_dir(self):
         print(Fore.BLUE + "Creating directory and cd'ing into it..." + Fore.RESET)
         #$ expanduser("~") will give something like /home/username. If the path is absolute, it will just return the path.
         installation_path = os.path.expanduser(self.config.runner_installation_dir)
 
-        subprocess.run(f"mkdir -p {installation_path}", shell=True)  #*  If I run "cd actions-runner" here: it will not persist to the next subprocess
+        subprocess.run(f"mkdir -p {installation_path}", shell=True)  
 
-        os.chdir(installation_path)
+        os.chdir(installation_path) #*  If I ran "cd actions-runner" here: it will not persist to the next subprocess
 
 
 
@@ -43,6 +45,7 @@ class  SelfHostedRunner:
 
 
 
+
     def _check_shasum(self):
         print(Fore.BLUE + 'Checking shasum authenticity...' + Fore.RESET)
         
@@ -54,6 +57,7 @@ class  SelfHostedRunner:
 
 
 
+
     def _extract_and_delete_tarball(self):
         print(Fore.BLUE + "Extracting tarball..." + Fore.RESET)
 
@@ -62,27 +66,23 @@ class  SelfHostedRunner:
 
 
 
+
     def _configure_and_start_runner(self):
         print(Fore.BLUE + "Configuring  runner and starting runner..." + Fore.RESET)
 
         #* We can let this be blocking. It auto exits with a return code.
-        config_run =  subprocess.run(f"./config.sh --unattended --replace --url {self.config.target_github_repository} --token {self.config. runner_token}", shell=True)
+        config_run =  subprocess.run(f"./config.sh --unattended --replace --url {self.config.target_github_repository} --token {self.config. runner_token}", shell=True, capture_output=True)
 
         if config_run.returncode !=0:
-            raise RunnerException(Fore.RED + "Configuring 'config.sh' failed POSSIBLY  DUE TO EXPIRED/INVALID TOKEN" + Fore.RESET)
+            raise RunnerException(Fore.RED + "Configuring 'config.sh' failed POSSIBLY  DUE TO EXPIRED/INVALID TOKEN. Full error message: " + config_run.stderr.decode() + Fore.RESET)
 
-        #* This will be pending in background because it is a FORGROUND process. If we tried "capture_output=True" Python will keep buffering output in memory.
+        #* This will be pending in background because it is a FOREGROUND process. If we tried "capture_output=True" Python will keep buffering output in memory.
         # subprocess.run("./run.sh")
 
         timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
         with open(f"runner_run_{timestamp}", "w") as f:
             subprocess.Popen("./run.sh", stdout=f, stderr=f)
-
-        
-
-
-        
         print(Fore.GREEN + "Runner configured and started." + Fore.RESET)
 
 
