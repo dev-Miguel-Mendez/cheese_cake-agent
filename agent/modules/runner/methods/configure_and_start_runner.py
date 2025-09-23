@@ -8,6 +8,8 @@ def configure_and_start_runner(target_github_repository: str, runner_token: str)
 
     #* We can let this be blocking. It auto exits with a return code.
     config_run =  subprocess.run(f"./config.sh --unattended --replace --url {target_github_repository} --token {runner_token}", shell=True, capture_output=True)
+    
+    subprocess.run("rm .runner", shell=True) #* Clean up previous config / avoid "already configured".  ".runner" contains a config json file.
 
     if config_run.returncode !=0:
         raise RunnerException(Fore.RED + "Configuring 'config.sh' failed POSSIBLY  DUE TO EXPIRED/INVALID TOKEN. Full error message: " + config_run.stderr.decode() + Fore.RESET)
@@ -15,7 +17,9 @@ def configure_and_start_runner(target_github_repository: str, runner_token: str)
     #* This will be pending in background because it is a FOREGROUND process. If we tried "capture_output=True" Python will keep buffering output in memory.
     # subprocess.run("./run.sh")
 
-    timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    subprocess.run("mkdir cheese_cake_runner_logs", shell=True) #* For logs.
+
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
 
     with open(f"cheese_cake_runner_logs/runner_run_{timestamp}", "w") as f:
         #$ This will create a file wherever "os.chdir()" was called.
