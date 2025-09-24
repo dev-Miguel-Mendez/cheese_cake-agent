@@ -15,9 +15,9 @@ class  SelfHostedRunner:
     
     original_dir = os.getcwd() #$ This will be needed the program to return to the INITIAL APP DIRECTORY after running "os.chdir". If not, subsequent request won't be able to find files such as "agent-config.json".
 
-    config = ConfigRepository().validate_runner_dict_and_return()
 
     def __init__(self):
+        self.config = ConfigRepository().validate_runner_dict_and_return() #! Run this inside of this __init__ function. If not, it will try to find a complete "agent-config.json" as soon as you boot up the server since this whole class gets imported and loaded.
         subprocess.run(f"mkdir -p {os.path.expanduser(self.config.path_to_runner)}", shell=True) #* Won't fail if the directory already exists
 
     #* =============== PRIVATE METHODS ===============
