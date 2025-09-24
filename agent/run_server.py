@@ -1,24 +1,20 @@
+import time
+import subprocess
+import sys
 import uvicorn
+#* This will redirect all output of the application run to cheese_cake.log
 
-
+logs_dir = "cheese_cake_logs"
+log_file = "run-" + time.strftime("%Y-%m-%d_%H:%M:%S")
+subprocess.run(f"mkdir -p {logs_dir}", shell=True)
+logfile = open(f"{logs_dir}/{log_file}" , "w")
+sys.stdout = logfile
+sys.stderr = logfile
 
 
 if __name__ == "__main__":
     #$ Need to pass application as import string
     uvicorn.run("agent.server.api:cheese_cake_server",  host="0.0.0.0", port=8000, reload=True) 
-    
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     #¡ Forget this:
