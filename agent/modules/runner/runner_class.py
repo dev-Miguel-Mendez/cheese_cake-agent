@@ -11,7 +11,6 @@ from agent.modules.runner.methods.configure_and_start_runner import configure_an
 
 class  SelfHostedRunner:
 
-
     
     original_dir = os.getcwd() #$ This will be needed the program to return to the INITIAL APP DIRECTORY after running "os.chdir". If not, subsequent request won't be able to find files such as "agent-config.json".
 
