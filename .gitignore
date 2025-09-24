@@ -2,6 +2,7 @@
 actions-runner
 .env
 agent-config.json
+cheese_cake_logs
 
 
 # === PyInstaller build ===
