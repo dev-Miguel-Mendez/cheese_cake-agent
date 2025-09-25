@@ -9,8 +9,11 @@ def configure_and_start_runner(target_github_repository: str, runner_token: str)
 
     subprocess.run("rm .runner", shell=True) #* Clean up previous config / avoid "already configured".  ".runner" contains a config json file.
 
-    #* We can let this be blocking. It auto exits with a return code.
-    config_run =  subprocess.run(f"./config.sh --unattended --replace --url {target_github_repository} --token {runner_token}", shell=True, capture_output=True)
+    #$ "RUNNER_ALLOW_RUNASROOT" will allow to run as root user (which by default is not allowed, need to be ran as non-sudo)
+    config_run =  subprocess.run(
+        f'RUNNER_ALLOW_RUNASROOT="1" ./config.sh --unattended --replace --url {target_github_repository} --token {runner_token}',
+        shell=True, capture_output=True
+    )
     
 
     if config_run.returncode !=0:
@@ -24,7 +27,7 @@ def configure_and_start_runner(target_github_repository: str, runner_token: str)
 
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
 
+    #$ This will create a log file where "os.chdir()" was called.
     with open(f"cheese_cake_runner_logs/runner_run_{timestamp}", "w") as f:
-        #$ This will create a file wherever "os.chdir()" was called.
         subprocess.Popen("./run.sh", stdout=f, stderr=f)
     print(Fore.GREEN + "Runner configured and started." + Fore.RESET)
