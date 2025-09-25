@@ -9,7 +9,7 @@ def download_tarball(tarball_file_name: str):
     runner_exists = subprocess.run('test -d bin', shell=True).returncode
 
     if((tarball_exists == 0) or runner_exists == 0):
-        print(Fore.YELLOW + 'Tarball already exists.' + Fore.RESET)
+        print(Fore.YELLOW + 'Runner already exists.' + Fore.RESET)
         return
     subprocess.run( f'curl -o {tarball_file_name} -L {RUNNER_DOWNLOAD_URL}', shell=True, capture_output=True)
     print(Fore.GREEN + 'Tarball downloaded!' + Fore.RESET)

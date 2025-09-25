@@ -14,9 +14,7 @@ subprocess.run("clear") #* Clear terminal
 
 
 actions: Dict[str, Callable[[], Any]] = {
-    "Set up self-hosted runner from scratch": lambda: (
-        SelfHostedRunner().setup_runner_from_scratch(),
-    ),
+    "Set up self-hosted runner from scratch": lambda: (SelfHostedRunner().setup_runner_from_scratch(),),
     "Download self-runner and extract": lambda:(SelfHostedRunner().download_and_extract()),
     "Run 'configure.sh' and start runner": lambda:(SelfHostedRunner().configure_and_start_runner()),
     "Print current working directory (for self-hosted runner)": lambda: subprocess.run("pwd"),

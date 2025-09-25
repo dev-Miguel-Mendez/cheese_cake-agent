@@ -21,7 +21,6 @@ class ConfigRepository:
     #* =============== PRIVATE METHODS ===============
 
     def _get_agent_config_dict(self)-> Any:
-        #$ expanduser("~") will give something like /home/username. If the path is absolute, it will just return the path.
         with open("agent-config.json", "r") as f:
             try:
                 agent_config_dict: Any = json.load(f)
@@ -35,17 +34,13 @@ class ConfigRepository:
 
     def validate_runner_dict_and_return(self) -> ValidRunnerConfig:
 
-
         agent_config_dict = self._get_agent_config_dict()
-        print(agent_config_dict)
-
         #*Validating config and getting it as object
         return ValidRunnerConfig(**agent_config_dict["runner_config"])
         
-
+    
 
     def save_agent_config_object(self, valid_config_object: ValidAgentConfig):
-        #$ expanduser("~") will give something like /home/username. If the path is absolute, it will just return the path.
         with open("agent-config.json", "w") as f:
             #! Honestly still not to sure of what "serialize_as_any=True" does but it works. I was having issues where when "model_dump()" only was excluding properties that belonged to ValidRunnerConfig and not BaseRunnerConfig
             json.dump(valid_config_object.model_dump(serialize_as_any=True), f, indent=4)

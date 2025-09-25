@@ -1,6 +1,6 @@
 import os
-from colorama import Back
 import subprocess
+from colorama import Back
 from agent.config.config_repository import ConfigRepository
 from agent.modules.runner.methods.download_tarball import download_tarball
 from agent.modules.runner.methods.check_shasum import check_shasum
