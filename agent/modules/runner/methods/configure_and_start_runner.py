@@ -29,5 +29,6 @@ def configure_and_start_runner(target_github_repository: str, runner_token: str)
 
     #$ This will create a log file where "os.chdir()" was called.
     with open(f"cheese_cake_runner_logs/runner_run_{timestamp}", "w") as f:
-        subprocess.Popen("./run.sh", stdout=f, stderr=f)
+        #$ "RUNNER_ALLOW_RUNASROOT" will allow to run as root user (which by default is not allowed, need to be ran as non-sudo)
+        subprocess.Popen('RUNNER_ALLOW_RUNASROOT="1"  ./run.sh', stdout=f, stderr=f)
     print(Fore.GREEN + "Runner configured and started." + Fore.RESET)
